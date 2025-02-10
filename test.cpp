@@ -61,3 +61,58 @@ int main() {
 
     return 0;
 }
+// Merge Sort of a linked list
+
+class Solution {
+    public:
+      // Merging two sorted linked lists
+      Node* merge(Node* head1, Node* head2) {
+          if (!head1) return head2;
+          if (!head2) return head1;
+          
+          Node* dummy = new Node(-1);
+          Node* curr = dummy;
+          
+          while (head1 && head2) {
+              if (head1->data < head2->data) {
+                  curr->next = head1;
+                  head1 = head1->next;
+              } else {
+                  curr->next = head2;
+                  head2 = head2->next;
+              }
+              curr = curr->next;
+          }
+          
+          if (head1) curr->next = head1;
+          if (head2) curr->next = head2;
+  
+          return dummy->next;
+      }
+      
+      // Function to find the middle and split the list
+      Node* getMid(Node* head) {
+          Node* slow = head;
+          Node* fast = head;
+          Node* prev = NULL;
+          while (fast && fast->next) {
+              prev = slow;
+              slow = slow->next;
+              fast = fast->next->next;
+          }
+          if (prev) prev->next = NULL; // Split the list
+          return slow;
+      }
+      
+      // Merge Sort function
+      Node* mergeSort(Node* head) {
+          if (!head || !head->next) return head;
+  
+          Node* mid = getMid(head);
+          Node* left = mergeSort(head);
+          Node* right = mergeSort(mid);
+  
+          return merge(left, right);
+      }
+  };
+  
