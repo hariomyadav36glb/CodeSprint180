@@ -115,5 +115,68 @@ class Solution {
           return merge(left, right);
       }
   };
-  
-  
+
+//   12 February
+
+2487. Remove Nodes From Linked List
+
+You are given the head of a linked list.
+
+Remove every node which has a node with a greater value anywhere to the right side of it.
+
+Return the head of the modified linked list.
+
+
+
+
+
+/**
+ * Definition for singly-linked list.
+ */
+
+ class Solution {
+    public:
+        ListNode* reverse(ListNode* head) {
+            ListNode* prev = nullptr;
+            while (head) {
+                ListNode* nextNode = head->next;
+                head->next = prev;
+                prev = head;
+                head = nextNode;
+            }
+            return prev;
+        }
+    
+        ListNode* removeNodes(ListNode* head) {
+            if (!head) return nullptr;
+    
+            // Step 1: Reverse the linked list
+            ListNode* newHead = reverse(head);
+            ListNode* temp = newHead;
+            
+            // Step 2: Use a stack to maintain decreasing order
+            stack<ListNode*> st;
+            ListNode* newList = temp;
+            st.push(temp);
+            temp = temp->next;
+    
+            while (temp) {
+                if (temp->val >= st.top()->val) { // Keep only nodes with max values seen so far
+                    st.top()->next = temp;
+                    st.push(temp);
+                }
+                temp = temp->next;
+            }
+    
+            st.top()->next = nullptr; // Terminate the new linked list
+            
+            // Step 3: Reverse back to original order
+            return reverse(newList);
+        }
+    }
+
+
+    //  problem of the day
+    
+
+1910. Remove All Occurrences of a Substring
