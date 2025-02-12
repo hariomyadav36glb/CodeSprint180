@@ -180,3 +180,50 @@ Return the head of the modified linked list.
     
 
 1910. Remove All Occurrences of a Substring
+
+
+class Solution {
+    public:
+        string removeOccurrences(string s, string part) {
+            int n1 = s.size();
+            int n2 = part.size();
+            while(s.find(part)!=string::npos)
+            {
+                auto x = s.find(part);
+                s.erase(x,n2);
+            }
+            return s;
+        }
+    };
+
+
+    
+
+    
+    // 13 feb 
+    #include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int vertex,edges;
+    cin>>vertex>>edges;
+    vector<int>adjList[vertex];
+    int u,v;
+    for(int i=0;i<edges;i++)
+    {
+        cin>>u>>v;
+        adjList[u].push_back(v);
+        adjList[v].push_back(u);
+    }
+
+    for(int i=0;i<vertex;i++)
+    {
+        cout<<i<<"->";
+        for(int j=0;j<adjList[i].size();j++)
+        {
+            cout<<adjList[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+}
