@@ -227,3 +227,56 @@ int main()
         cout<<endl;
     }
 }
+
+//  17 february
+
+
+class Solution {
+  public:
+ 
+  void DFS(int node,vector<bool>&visit,vector<vector<int>>&adjls,
+vector<int>&t)
+  {
+      visit[node]=1;
+      t.push_back(node);
+      
+      for(int ngbr:adjls[node])
+      {
+          if(!visit[ngbr])
+          {
+              DFS(ngbr,visit,adjls,t);
+          }
+      }
+ 
+      
+  }
+    vector<vector<int>> connectedcomponents(int v, vector<vector<int>>& edges) {
+     vector<vector<int>>ans;
+      vector<int>t;
+       vector<bool>visit(v,0);
+       vector<vector<int>>adjls(v);
+       for(auto edge :edges)
+       {
+           int u = edge[0];
+           int v = edge[1];
+           adjls[u].push_back(v);
+           adjls[v].push_back(u);
+       }
+      for(int i=0;i<v;i++)
+       {
+           if(!visit[i])
+           {
+               vector<int>t;
+               DFS(i,visit,adjls,t);
+               ans.push_back(t);
+           }
+       }
+        
+         for (int i = 0; i < ans.size(); i++) {
+            sort(ans[i].begin(), ans[i].end());
+        }
+        
+       return ans;
+       
+    }
+};
