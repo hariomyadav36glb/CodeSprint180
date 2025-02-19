@@ -319,3 +319,73 @@ vector<int>&t)
 //       return res;
 //     }
 // };
+
+
+
+
+
+20 february 
+
+Write a program to solve a Sudoku puzzle by filling the empty cells.
+
+A sudoku solution must satisfy all of the following rules:
+
+Each of the digits 1-9 must occur exactly once in each row.
+Each of the digits 1-9 must occur exactly once in each column.
+Each of the digits 1-9 must occur exactly once in each of the 9 3x3 sub-boxes of the grid.
+The '.' character indicates empty cells.
+
+
+
+
+    
+class Solution {
+public:
+    bool isValid(vector<vector<char>>& board, int x, int y, char val) {
+      
+        for (int j = 0; j < 9; j++) {
+            if (board[x][j] == val) return false;
+        }
+ 
+        for (int i = 0; i < 9; i++) {
+            if (board[i][y] == val) return false;
+        }
+       
+        int smi = 3 * (x / 3);
+        int smj = 3 * (y / 3);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[smi + i][smj + j] == val) return false;
+            }
+        }
+        return true;
+    }
+
+    bool fun(vector<vector<char>>& board, int i, int j) {
+        // Base case: If we reach the end of the board, return true
+        if (i == 9) return true;
+
+        // Compute next cell
+        int ni = (j == 8) ? i + 1 : i;
+        int nj = (j == 8) ? 0 : j + 1;
+
+        // If cell is already filled, move to next cell
+        if (board[i][j] != '.') {
+            return fun(board, ni, nj);
+        }
+
+        // Try placing numbers 1-9
+        for (char ch = '1'; ch <= '9'; ch++) {
+            if (isValid(board, i, j, ch)) {
+                board[i][j] = ch; // Place number
+                if (fun(board, ni, nj)) return true; // If solved, return true
+                board[i][j] = '.'; // Backtrack
+            }
+        }
+        return false; // No valid number found
+    }
+
+    void solveSudoku(vector<vector<char>>& board) {
+        fun(board, 0, 0);
+    }
+};
